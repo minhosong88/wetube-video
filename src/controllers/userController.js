@@ -108,6 +108,7 @@ export const finishGithubLogin = async(req, res) =>{
             (email) => email.primary === true && email.verified === true  
         );
         if(!emailObj){
+            //set notification
             return res.redirect("/login");
         }
         let user = await User.findOne({email: emailObj.email});
@@ -130,8 +131,45 @@ export const finishGithubLogin = async(req, res) =>{
         return res.redirect("/login");
     }
 };   
+export const getEdit = (req, res) => {
+    return res.render("edit-profile", {pageTitle:"Edit Profile"});
+}
+export const postEdit = async(req, res) => {
+    const {
+        session:{
+            user: {_id, username: sessionUsername, email: sessionEmail },
+        },
+        body: { name, email, username, location, },
+    } =req;
+    const pageTitle = "Edit Profile"
+    if(sessionUsername !== username){
+        const exists = await User.exists({username});
+        if(exists){
+            return res.status(400).render("edit-profile", {
+                pageTitle,
+                errorMessage: "This username is already taken.",
+            });
+        }
+    }
+    if(sessionEmail!== email){
+        const exists = await User.exists({email});
+        if(exists){
+            return res.status(400).render("edit-profile", {
+                pageTitle,
+                errorMessage: "This email is already taken.",
+            });
+        }
+    }
+    const updatedUser = await User.findByIdAndUpdate(_id,{
+        name,
+        email, 
+        username, 
+        location, 
+    },{new:true}); 
 
-export const edit = (req, res) => res.send("Edit User");
+    req.session.user = updatedUser;
+    res.redirect("/users/edit");
+}
 export const logout = (req, res) => {
     req.session.destroy();
     res.redirect("/");
