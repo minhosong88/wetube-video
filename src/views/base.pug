@@ -11,17 +11,17 @@ html(lang="en")
                     li
                         a(href="/") Home
                     if loggedIn 
+                        li   
+                            a(href=`/users/${loggedInUser._id}`) My profile
                         li
                             a(href="/users/edit") Edit Profile
-                        li
-                            a(href="/users/logout") Log Out
                         li
                             if pageTitle==="Upload Video"
                                 a(href="/") Go back to Home Page 
                             else
                                 a(href="/videos/upload") Upload Video
-                        //- li   
-                        //-     a(href="/my-profile")  #{loggedInUser.name}'s Profile
+                        li
+                            a(href="/users/logout") Log Out
                     else
                         li    
                             a(href="/join") Join
