@@ -7,7 +7,8 @@
     "url": "git+https://github.com/minhosong88/wetube-clone.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/init.js"
+    "dev:server": "nodemon",
+    "dev:assets": "webpack --config webpack.config.cjs"
   },
   "type": "module",
   "author": "Minho Song",
@@ -32,6 +33,14 @@
     "@babel/core": "^7.21.8",
     "@babel/node": "^7.22.1",
     "@babel/preset-env": "^7.21.5",
-    "nodemon": "^2.0.22"
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.8.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "nodemon": "^2.0.22",
+    "sass": "^1.63.6",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
   }
 }
