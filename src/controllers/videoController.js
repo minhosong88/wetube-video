@@ -15,7 +15,7 @@ export const watch =async(req, res) => {
         return res.status(404).render("404",{pageTitle:"Video not found"});
     }
     return res.render("video/watch", {pageTitle:video.title,video,});
-}
+};
 
 export const getEdit = async(req, res) => {
     const {id} = req.params;
@@ -30,7 +30,7 @@ export const getEdit = async(req, res) => {
         return res.status(403).redirect("/");
     }
     return res.render("video/edit", {pageTitle:`Edit: ${video.title}`, video});
-}
+};
 
 export const postEdit =async(req, res) => {
     const {id} = req.params;
@@ -87,7 +87,8 @@ export const postUpload = async(req, res) =>{
 };
 
 export const deleteVideo =async(req, res) =>{
-    const {id} = req.params;const {
+    const {id} = req.params;
+    const {
         user:{_id},
     } = req.session;
     const video = await Video.findById(id);
@@ -99,7 +100,7 @@ export const deleteVideo =async(req, res) =>{
     }
     await Video.findByIdAndDelete(id);
     return res.redirect("/");
-}
+};
 
 export const search = async(req, res) =>{
     const {keyword} = req.query;
@@ -112,4 +113,15 @@ export const search = async(req, res) =>{
         }).populate("owner");
     }
     return res.render("video/search",{pageTitle:"Search", videos});
-}
+};
+
+export const registerView = async(req, res) => {
+    const { id } = req.params;
+    const video = await Video.findById(id);
+    if(!video){
+        return res.sendStatus(404);
+    }
+    video.meta.view = video.meta.view + 1;
+    await video.save();
+    return res.sendStatus(200);
+};
