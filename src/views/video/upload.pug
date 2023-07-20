@@ -1,16 +1,19 @@
 extends ../base
 
 block content
-    div
-        video#preview 
-        button#startBtn Start Recording 
+    div.upload__container
+        div.upload__video
+            video#preview 
+            button#actionBtn.social__btn Start Recording 
     if errorMessage 
         span=errorMessage
     form(method = "POST", enctype="multipart/form-data")
         label(for="video") Video File
         input(type="file", accept="video/*", required, id="video", name="video")
+        label(for="thumb") Thumbnail File
+        input(type="file", accept="image/*", required, id="thumb", name="thumb")
         input(name="title", placeholder="Title", required, type ="text", maxLength="80")
-        input(name="description", placeholder="Description", required, type ="text", minlength= "20")
+        input(name="description", placeholder="Description", required, type ="text", minlength= "2")
         input(name="hashtags", placeholder="Hashtag, separated by comma.", required, type ="text")
         input(type="submit", value="Upload Video") 
 block scripts 
