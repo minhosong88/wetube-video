@@ -57,7 +57,7 @@ export const postLogin = async(req, res) => {
     req.session.loggedIn = true;
     req.session.user = user;
     return res.redirect("/");
-}
+};
 
 export const startGithubLogin = (req, res) =>{
     const baseUrl = "https://github.com/login/oauth/authorize";
@@ -69,7 +69,7 @@ export const startGithubLogin = (req, res) =>{
     const params = new URLSearchParams(config).toString();
     const finalUrl = `${baseUrl}?${params}`;
     return res.redirect(finalUrl);
-}
+};
 
 export const finishGithubLogin = async(req, res) =>{
     const baseUrl = "https://github.com/login/oauth/access_token"
@@ -134,7 +134,7 @@ export const finishGithubLogin = async(req, res) =>{
 };   
 export const getEdit = (req, res) => {
     return res.render("user/edit-profile", {pageTitle:"Edit Profile"});
-}
+};
 export const postEdit = async(req, res) => {
     const {
         session:{
@@ -172,15 +172,22 @@ export const postEdit = async(req, res) => {
     },{new:true}); 
     req.session.user = updatedUser;
     res.redirect("/users/edit");
-}
+};
 export const logout = (req, res) => {
-    req.session.destroy();
+    req.session.user = null;
+    res.locals.loggedInUser = req.session.user;
+    req.session.loggedIn = false;
+    req.flash("info", "Bye Bye");
     res.redirect("/");
-}
+};
 
 export const getChangePassword = (req, res) => {
+    if(req.session.user.socialOnly === true){
+        req.flash("info", "Can't change password.");
+        return res.redirect("/");
+    }
     return res.render("user/change-password", {pageTitle:"Change password"});
-}
+};
 export const postChangePassword =  async(req, res) => {
     const {
         session:{
@@ -211,9 +218,10 @@ export const postChangePassword =  async(req, res) => {
     user.password = newPassword;
     await user.save();
     req.session.destroy();
+    req.flash("info", "Password updated");
     return res.redirect("/users/logout")
  
-}
+};
 
 export const see = async(req, res) => {
     const {id} = req.params;
@@ -233,4 +241,4 @@ export const see = async(req, res) => {
         user,
     });
 
-}
+};
