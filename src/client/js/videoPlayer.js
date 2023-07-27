@@ -12,7 +12,6 @@ const fullScreenIcon = fullScreenBtn.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
 
-
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
@@ -123,7 +122,7 @@ const handleTimelineChange = (event) =>{
 };
 
 const handleKeyboardControl = (event) =>{
-    event.preventDefault()
+    // event.preventDefault();
         if(event.keyCode === 32){
             handlePlayClick();
         }

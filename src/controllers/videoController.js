@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import Comment from "../models/Comment.js";
 import Video from "../models/Video.js"
 
 export const home = async(req, res) => {
@@ -9,7 +10,7 @@ export const home = async(req, res) => {
 };
 export const watch =async(req, res) => {
     const {id} = req.params;
-    const video = await Video.findById(id).populate("owner");
+    const video = await Video.findById(id).populate("owner").populate("comments");
     if(!video){
         return res.status(404).render("404",{pageTitle:"Video not found"});
     }
@@ -127,3 +128,52 @@ export const registerView = async(req, res) => {
     await video.save();
     return res.sendStatus(200);
 };
+
+export const createComment = async(req, res) => {
+    const {
+        session:{ user },
+        body:{ text },
+        params:{ id },
+    } = req;
+    const video = await Video.findById(id);
+    if(!video){
+        return res.sendStatus(404);
+    }
+    const commentUser = await User.findById({_id:user._id}).populate("comments");
+    if(!commentUser){
+        return res.sendStatus(404);
+    }
+    const comment = await Comment.create({
+        text,
+        owner: user._id,
+        video: id,
+    });
+    video.comments.push(comment._id);
+    video.save();
+    commentUser.comments.push(comment._id);
+    commentUser.save();
+    return res.status(201).json({newCommentId: comment._id});
+}
+
+export const deleteComment = async(req,res) =>{
+    const {
+        params:{ id },
+    } = req;
+    const comment = await Comment.findById(id);
+    if(!comment){
+        return res.sendStatus(404);
+    }
+    const video = await Video.findById(comment.video._id);
+    const commentUser = await User.findById({_id:comment.owner._id});
+    if(!commentUser){
+        return res.sendStatus(404);
+    }
+    const videoCommentIdx = video.comments.indexOf(comment._id);
+    const userCommentIdx = commentUser.comments.indexOf(comment._id);
+    await Comment.findByIdAndDelete(id);
+    video.comments.splice(videoCommentIdx, 1);
+    commentUser.comments.splice(userCommentIdx,1);
+    video.save();
+    commentUser.save();
+    return res.sendStatus(200);
+}
