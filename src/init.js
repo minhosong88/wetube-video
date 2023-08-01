@@ -6,7 +6,7 @@ import "./models/Comment.js";
 import app from "./server.js";
 
 
-const PORT = 4000; // backend convention is 4000.
+const PORT = process.env.PORT || 4000; // backend convention is 4000.
 
 
 const handleListening = () => 
