@@ -15,10 +15,10 @@ const logger= morgan("dev");
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 app.use((req, res, next)=>{
-    res.setHeader("Access-Controll-Allow-Origin","*");
-    res.header("Cross-Origin-Embedder-Policy", "credentialless");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.header("Cross-Origin-Opener-Policy", "same-origin");
-    res.header("Access-Controll-Allow-Headers");
+    res.header("Cross-Origin-Embedder-Policy", "credentialless");
+    res.header("Access-Control-Allow-Headers");
     res.header("Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
