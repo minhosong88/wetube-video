@@ -18,7 +18,7 @@ header
                     a(href="/users/logout") Log Out
                 li   
                     a(href=`/users/${loggedInUser._id}`)
-                        if loggedInUser.avatarUrl === undefined
+                        if loggedInUser.avatarUrl === ""
                             span 😊
                         else 
                             if loggedInUser.avatarUrl
