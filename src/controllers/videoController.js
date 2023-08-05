@@ -65,6 +65,7 @@ export const postUpload = async(req, res) =>{
             user:{_id},
         },
     } = req;
+    const isHeroku = process.env.NODE_ENV === "production";
     const { video, thumb } = req.files;
     const {title, description, hashtags} = req.body;
     try{
@@ -72,8 +73,8 @@ export const postUpload = async(req, res) =>{
             title,
             description,
             createdAt: Date.now(),
-            fileUrl: Video.changePath(video[0].location),
-            thumbUrl: Video.changePath(thumb[0].location),
+            fileUrl: Video.changePath(isHeroku ? video[0].location : video[0].path),
+            thumbUrl: Video.changePath(isHeroku ? thumb[0].location : thumb[0].path),
             owner:_id,
             hashtags: Video.formatHashtags(hashtags),
     });
