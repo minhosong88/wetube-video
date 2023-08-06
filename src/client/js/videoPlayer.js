@@ -203,7 +203,9 @@ playBtn.addEventListener("click", handlePlayClick);
 volumeRange.addEventListener("input", handleVolumeInput);
 volumeRange.addEventListener("change", handleVolumeChange);
 muteBtn.addEventListener("click", handleMuteClick);
-video.addEventListener("loadedmetadata", handleLoadedMetadata);
+if(video.readyState >= 2){
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+}
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("click", handleVideoClick);
 video.addEventListener("ended", handleEnded);
