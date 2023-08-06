@@ -11,6 +11,7 @@ const fullScreenBtn = document.getElementById("fullScreen");
 const fullScreenIcon = fullScreenBtn.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
+const form = document.getElementById("commentForm");
 
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
@@ -197,6 +198,20 @@ const handleEnded = async () => {
     await fetch(`/api/videos/${id}/view`,{
     method: "POST",
     });
+};
+
+const handleFormFocusIn = () =>{
+    removeEventListener(handleKeyboardControl);
+    console.log("comment section focused in");
+};
+const handleFormFocusOut = () =>{
+    addEventListener(handleKeyboardControl);
+    console.log("comment section focused out");
+};
+
+if(form){
+    form.addEventListener("focusin", handleFormFocusIn);
+    form.addEventListener("focusout", handleFormFocusOut);
 };
 
 playBtn.addEventListener("click", handlePlayClick);
