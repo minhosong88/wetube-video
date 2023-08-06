@@ -16,7 +16,7 @@ let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
-console.log(loadedMetadata);
+console.log(loadedmetadata);
 const volumeIconsChange = () => {
     if(video.volume > 0 && video.volume < 0.4 ){
         return muteBtnIcon.classList = "fas fa-volume-off";
