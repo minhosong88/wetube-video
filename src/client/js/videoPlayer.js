@@ -20,14 +20,14 @@ video.volume = volumeValue;
 const volumeIconsChange = () => {
     if(video.volume > 0 && video.volume < 0.4 ){
         return muteBtnIcon.classList = "fas fa-volume-off";
-    } else if(video.volume  >= 0.4 && video.volume < 0.8){
+    } else if(video.volume  >= 0.4 && video.volume < 0.7){
         return muteBtnIcon.classList = "fas fa-volume-down";    
-    } else if(video.volume >= 0.8 && video.volume <= 1.0){
+    } else if(video.volume >= 0.7 && video.volume <= 1.0){
         return muteBtnIcon.classList = "fas fa-volume-up";
     }
 };
 
-const handlePlayClick = (e) =>{
+const handlePlayClick = () =>{
      if(video.paused) {
         video.play();
     } else {
@@ -40,7 +40,7 @@ const handleVideoClick = () =>{
    handlePlayClick();
 }
 
-const handleMuteClick = (e) =>{
+const handleMuteClick = () =>{
     if(video.muted){
         video.muted = false;
     } else{
@@ -203,7 +203,7 @@ playBtn.addEventListener("click", handlePlayClick);
 volumeRange.addEventListener("input", handleVolumeInput);
 volumeRange.addEventListener("change", handleVolumeChange);
 muteBtn.addEventListener("click", handleMuteClick);
-video.addEventListener("loadeddata", handleLoadedMetadata)
+video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("click", handleVideoClick);
 video.addEventListener("ended", handleEnded);
