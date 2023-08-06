@@ -48,6 +48,13 @@ const handleSubmit = async(event) =>{
     }
 };
 
+const handleFormFocusIn = () =>{
+    removeEventListener(handleKeyboardControl);
+}
+const handleFormFocusOut = () =>{
+    addEventListener(handleKeyboardControl);
+}
+
 const handleDeleteClick = async(event) =>{
     const commentId = event.target.dataset.id;
     const response = await fetch(`/api/videos/${commentId}/delete`,{
@@ -61,6 +68,8 @@ const handleDeleteClick = async(event) =>{
 
 if(form){
     form.addEventListener("submit", handleSubmit);
+    form.addEventListener("focusin", handleFormFocusIn);
+    form.addEventListener("focusout", handleFormFocusOut);
 };
 
 if(deleteBtn){
