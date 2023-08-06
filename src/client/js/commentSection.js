@@ -50,9 +50,12 @@ const handleSubmit = async(event) =>{
 
 const handleFormFocusIn = () =>{
     removeEventListener(handleKeyboardControl);
+    console.log("comment section focused in");
 }
 const handleFormFocusOut = () =>{
     addEventListener(handleKeyboardControl);
+    console.log("comment section focused out");
+
 }
 
 const handleDeleteClick = async(event) =>{
