@@ -32,8 +32,11 @@ const volumeIconsChange = () => {
 const handlePlayClick = () =>{
      if(video.paused) {
         video.play();
+        videoPlayBtn.classList.remove("hidden")
     } else {
         video.pause();
+        videoPauseBtn.classList.remove("hidden")
+
     }
     playBtnIcon.classList = video.paused ? "fas fa-play":"fas fa-pause";
 };

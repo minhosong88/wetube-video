@@ -4,10 +4,6 @@ block content
     div#videoContainer(data-id=video._id)
         if isHeroku
             video(src=video.fileUrl, crossorigin)
-            span#videoPlayBtn
-                i.fa-solid.fa-play
-            span#videoPauseBtn 
-                i.fa-solid.fa-pause
         else 
             video(src="/"+video.fileUrl, crossorigin)
         div#videoControls.videoControls
