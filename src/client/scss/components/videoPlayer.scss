@@ -15,7 +15,7 @@
     #videoPlayBtn {
       position: absolute;
       top: 50px;
-      z-index: 1;
+      z-index: 2;
       animation: fadeout 1s ease-in-out;
       // .hidden{
       //   display: none;
@@ -24,9 +24,9 @@
     #videoPlayBtn {
       position: absolute;
       z-index: 1;
-      // .hidden{
-      //   display: none;
-      // }
+      .hidden{
+        display: none;
+      }
     }
     .videoControls {
       opacity: 0;
