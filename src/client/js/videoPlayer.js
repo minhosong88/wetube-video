@@ -16,7 +16,7 @@ let controlsTimeout = null;
 let controlsMovementTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
-
+console.log(video.duration);
 const volumeIconsChange = () => {
     if(video.volume > 0 && video.volume < 0.4 ){
         return muteBtnIcon.classList = "fas fa-volume-off";
@@ -203,7 +203,7 @@ playBtn.addEventListener("click", handlePlayClick);
 volumeRange.addEventListener("input", handleVolumeInput);
 volumeRange.addEventListener("change", handleVolumeChange);
 muteBtn.addEventListener("click", handleMuteClick);
-video.addEventListener("loadeddata", handleLoadedMetadata);
+video.on("ready", addEventListener("loadeddata", handleLoadedMetadata));
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("click", handleVideoClick);
 video.addEventListener("ended", handleEnded);
