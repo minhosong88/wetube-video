@@ -1,5 +1,6 @@
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
+const videoPlayBtn = document.getElementById("videoPlayBtn");
 const playBtnIcon = playBtn.querySelector("i");
 const muteBtn = document.getElementById("mute");
 const muteBtnIcon = muteBtn.querySelector("i");
