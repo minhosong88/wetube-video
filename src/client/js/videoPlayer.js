@@ -201,11 +201,11 @@ const handleEnded = async () => {
 };
 
 const handleFormFocusIn = () =>{
-    removeEventListener(handleKeyboardControl);
+    window.removeEventListener("keydown", handleKeyboardControl);
     console.log("comment section focused in");
 };
 const handleFormFocusOut = () =>{
-    addEventListener(handleKeyboardControl);
+    window.addEventListener("keydown", handleKeyboardControl);
     console.log("comment section focused out");
 };
 
