@@ -122,7 +122,7 @@ const handleTimelineChange = (event) =>{
 };
 
 const handleKeyboardControl = (event) =>{
-    // event.preventDefault();
+        event.preventDefault();
         if(event.keyCode === 32){
             handlePlayClick();
         }
@@ -211,6 +211,6 @@ videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 timeline.addEventListener("input", handleTimelineInput);
 timeline.addEventListener("change", handleTimelineChange);
-window.addEventListener("keydown", handleKeyboardControl);
 document.addEventListener("fullscreenchange", handleFullScreenChange);
+window.addEventListener("keydown", handleKeyboardControl);
 fullScreenBtn.addEventListener("click", handleFullScreenBtn);
