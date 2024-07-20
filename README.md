@@ -8,7 +8,7 @@ Welcome to the WeTube video repository! This is a clone project inspired by YouT
 - [Project Structure](#project-structure)
 - [Features](#features)
 - [API Endpoints](#api-endpoints)
-- [Contact Information](#contact_information)
+- [Contact Information](#contact-information)
 ## Installation
 
 1. **Clone the repository:**
@@ -172,5 +172,5 @@ wetube-video/
 For any inquiries or feedback, please feel free to contact me:
 
 - **Email:** hominsong@naver.com
-- **GitHub:** [WeTube Repository](https://github.com/minhosong88/wetube)
+- **GitHub:** [WeTube Repository](https://github.com/minhosong88/wetube-video)
 
