@@ -102,7 +102,7 @@ wetube-video/
 │   ├── init.js
 │   ├── middlewares.js
 │   └── server.js
-
+```
 ## Features
 
 - **User Authentication:**
