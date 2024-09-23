@@ -27,7 +27,7 @@ const volumeIconsChange = () => {
         return muteBtnIcon.classList = "fas fa-volume-up";
     }
 };
-
+// There was fault where I plan to use pause button and I did not use it at all. d
 const handlePlayClick = () =>{
      if(video.paused) {
         video.play();
@@ -35,7 +35,7 @@ const handlePlayClick = () =>{
     } else {
         video.pause();
         playBtnIcon.classList = "fas fa-play";
-
+        // here there was pauseBtnIcon but not used. probably might have caused error
     }
     playBtnIcon.classList = video.paused ? "fas fa-play":"fas fa-pause";
 };
