@@ -1,5 +1,5 @@
 import {FFmpeg} from "@ffmpeg/ffmpeg";
-import {fetchFile} from "@ffmpeg/util"
+import { fetchFile } from "@ffmpeg/util";
 
 const actionBtn = document.getElementById("actionBtn");
 const video = document.getElementById("preview");

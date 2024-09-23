@@ -1,6 +1,5 @@
 const video = document.querySelector("video");
 const playBtn = document.getElementById("play");
-const videoPlayBtn = document.getElementById("videoPlayBtn");
 const playBtnIcon = playBtn.querySelector("i");
 const muteBtn = document.getElementById("mute");
 const muteBtnIcon = muteBtn.querySelector("i");
@@ -32,10 +31,10 @@ const volumeIconsChange = () => {
 const handlePlayClick = () =>{
      if(video.paused) {
         video.play();
-        videoPlayBtn.classList.remove("hidden")
+        playBtnIcon.classList = "fas fa-pause"; 
     } else {
         video.pause();
-        videoPauseBtn.classList.remove("hidden")
+        playBtnIcon.classList = "fas fa-play";
 
     }
     playBtnIcon.classList = video.paused ? "fas fa-play":"fas fa-pause";
@@ -54,9 +53,9 @@ const handleMuteClick = () =>{
     if(video.volume === 0){
         video.volume = volumeValue;
     }
-    if(video.muted){
-        muteBtnIcon.classList =  "fas fa-volume-mute"
-    } else volumeIconsChange()
+    if (video.muted) {
+        muteBtnIcon.classList = "fas fa-volume-mute"
+    } else volumeIconsChange();
 
     volumeRange.value = video.muted ? 0 : volumeValue;
 };
@@ -72,10 +71,10 @@ const handleVolumeInput = (event) =>{
     }
     if(video.muted){
         video.muted = false;
-        volumeIconsChange()
+        volumeIconsChange();
     }
 
-    volumeIconsChange()
+    volumeIconsChange();
     
 };
 
@@ -141,16 +140,16 @@ const handleKeyboardControl = (event) =>{
            volumeRange.value = video.volume += 0.1;
             if(video.muted){
                 video.muted = false;
-                volumeIconsChange()
+                volumeIconsChange();
             }
-            volumeIconsChange()
+            volumeIconsChange();
         }
         if(event.keyCode === 40){
             volumeRange.value = video.volume -= 0.1;
             volumeIconsChange()
             if(video.muted){
                 video.muted = false;
-                volumeIconsChange()
+                volumeIconsChange();
             }
             if( Math.floor(video.volume*10) === 0){
                 video.muted = true;
