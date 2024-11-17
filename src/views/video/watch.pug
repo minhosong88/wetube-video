@@ -2,10 +2,11 @@ extends ../base
 
 block content
     div#videoContainer(data-id=video._id)
-        if isHeroku
+        // if isHeroku
             video(src=video.fileUrl, crossorigin)
-        else 
+        //else 
             video(src="/"+video.fileUrl, crossorigin)
+        video(src="/"+video.fileUrl, crossorigin)
         div#videoControls.videoControls
             div.videoControls__play
                 span#play.videoControls__playBtn 
@@ -23,7 +24,9 @@ block content
                 span#fullScreen
                     i.fas.fa-expand
     div.video__data
-        p.video__title=video.description
+        h3.video__title=video.title
+        // video title was missing. video title added. 
+        p.video__description= video.description
         small.video__owner Uploaded by  
             a(href=`/users/${video.owner._id}`)=video.owner.name
         small.video__createdAt=new Date(video.createdAt).toLocaleDateString("en-en",{weekday: "long", year: "numeric", month: "long", day: "numeric"})
@@ -35,7 +38,7 @@ block content
     if loggedIn
         div.video__add-comments 
             form.video__comment-form#commentForm
-                textarea(cols="30", rows="10", placeholder="Write a comment..")
+                textarea(cols="30", rows="10", placeholder="Write a comment..", maxlength="150" minlength="5")
                 button Add Comment
     div.video__comments
         ul 

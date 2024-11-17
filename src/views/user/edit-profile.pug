@@ -1,13 +1,16 @@
 extends ../base
 
 block content
+    if errorMessage
+            div(class="error-message")
+                span= errorMessage 
     form(method="POST", enctype="multipart/form-data").edit-profile__form
         label(for="avatar") Avatar
         input(type="file", id="avatar", name="avatar", accept="image/*")
-        input(placeholder="Name", name="name", type="text", required, value=loggedInUser.name)
-        input(placeholder="Email", name="email", type="email", required, value=loggedInUser.email)
-        input(placeholder="Username", name="username", type="text", required, value=loggedInUser.username)
-        input(placeholder="Location", name="location", type="text", required, value=loggedInUser.location)
+        input(type="text", name="name", placeholder="Name", required minlength="2", maxlength="30",  pattern="^[a-zA-Z\\s]{2,30}", title="Name must be 2-50 characters long and can only contain letters and spaces.", value=loggedInUser.name)
+        input(type="email", name="email", placeholder="Email", required, maxlength="50", value=loggedInUser.email)
+        input(type="text", name="username", placeholder="Username", required, minlength="5", maxlength="20", pattern="[a-zA-Z0-9_\\-]{5,20}$", title="Username must be 5-20 characters long and can only contain letters, numbers, hyphens, and underscores.", value=loggedInUser.username)
+        input(placeholder="Location", name="location", type="text", required, minlength="2", maxlength="50", pattern="^[a-zA-Z0-9\\s,]{2,50}$" title="location must be 2-50 characters long and can only contain letters and spaces.", value=loggedInUser.location)
         input(type="submit", value="Update Profile")
         if !loggedInUser.socialOnly 
             div.edit-profile__password

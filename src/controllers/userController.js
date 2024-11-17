@@ -5,12 +5,49 @@ export const getJoin = (req, res) =>res.render("user/join",{ pageTitle: "Join"})
 export const postJoin =async(req, res) => {
     const {name, email, username, password, password2,  location} = req.body;
     const pageTitle = "join";
+
+    //password confirmation
     if(password !== password2){
         return res.status(400).render("user/join", {
             pageTitle,
             errorMessage: "Password confirmation does not match."
         })
     }
+    //password validation
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{10,20}/;
+    if (!passwordRegex.test(password)) {
+        return res.status(400).render("user/join", {
+            pageTitle,
+            errorMessage: "Password must be between 10 and 20 characters long, contain at least one uppercase and one special character."
+        });
+    }
+    //username validation
+    const usernameRegex = /^[a-zA-Z0-9_-]{5,20}$/;
+    if (!usernameRegex.test(username)) {
+        return res.status(400).render("user/join", {
+            pageTitle,
+            errorMessage:
+                "Username must be 5-20 characters long and can only contain letters, numbers, underscores, and hyphens.",
+        });
+    }
+    // Name validation
+    const namePattern = /^[a-zA-Z\s]{2,30}$/;
+    if (!namePattern.test(name)) {
+        return res.status(400).render("user/join", {
+            pageTitle,
+            errorMessage: "Name must be 2-50 characters long and can only contain letters and spaces.",
+        });
+    }
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        return res.status(400).render("user/join", {
+            pageTitle,
+            errorMessage: "Please enter a valid email address.",
+        });
+    }
+
+    // Check if email or username is already taken
     const exists = await User.exists({$or: [{username}, {email}]});
     if(exists){
         return res.status(400).render("user/join", {
@@ -34,7 +71,11 @@ export const postJoin =async(req, res) => {
         });
     }
 };
-export const getLogin = (req, res) => res.render("user/login", {pageTitle:"Login"});
+export const getLogin = (req, res) => {
+    const infoMessage = req.flash("info");
+    res.render("user/login", { pageTitle: "Login" , infoMessage})
+
+};
 export const postLogin = async(req, res) => {
     const {username, password} = req.body;
     const user = await User.findOne({username, socialOnly:false});
@@ -83,7 +124,7 @@ export const finishGithubLogin = async(req, res) =>{
             method:"POST",
             headers: {
                 Accept: "application/json",
-            }, 
+            },  
         })
     ).json();
     if("access_token" in tokenRequest){
@@ -141,7 +182,22 @@ export const postEdit = async(req, res) => {
         body: { name, email, username, location, },
         file,
     } = req;
+
     const pageTitle = "Edit Profile"
+
+    if (req.fileSizeError) {
+        return res.status(400).render("user/edit-profile", {
+            pageTitle,
+            errorMessage: "File size should not exceed 3MB.",
+        });
+    }
+    if (req.fileValidationError) { 
+        return res.status(400).render("user/edit-profile", {
+            pageTitle,
+            errorMessage: req.fileValidationError,
+        })
+    }
+
     if(sessionUsername !== username){
         const exists = await User.exists({username});
         if(exists){
@@ -160,9 +216,10 @@ export const postEdit = async(req, res) => {
             });
         }
     }
-    const isHeroku = process.env.NODE_ENV === "production";
+//    const isHeroku = process.env.NODE_ENV === "production";
     const updatedUser = await User.findByIdAndUpdate(_id,{
-        avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
+        // avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
+        avatarUrl: file ? file.path : avatarUrl,
         name,
         email, 
         username, 
@@ -171,6 +228,7 @@ export const postEdit = async(req, res) => {
     req.session.user = updatedUser;
     res.redirect("/users/edit");
 };
+
 export const logout = (req, res) => {
     req.session.user = null;
     res.locals.loggedInUser = req.session.user;
@@ -215,9 +273,13 @@ export const postChangePassword =  async(req, res) => {
     }
     user.password = newPassword;
     await user.save();
-    req.session.destroy();
-    req.flash("info", "Password updated");
-    return res.redirect("/users/logout")
+    
+        // there was code error here. reason: session was destroyed before the flash message. and crash the application. failure observed.
+    req.session.user = null;
+    res.locals.loggedInUser = req.session.user; // Instead of destroying session, I changed the code to logout smoothely with info message
+    req.session.loggedIn = false;
+    req.flash("info", "Password updated. Please log in again");
+    res.redirect("/")
  
 };
 

@@ -27,7 +27,7 @@ const volumeIconsChange = () => {
         return muteBtnIcon.classList = "fas fa-volume-up";
     }
 };
-
+// There was fault where I plan to use pause button and I did not use it at all. d
 const handlePlayClick = () =>{
      if(video.paused) {
         video.play();
@@ -35,7 +35,7 @@ const handlePlayClick = () =>{
     } else {
         video.pause();
         playBtnIcon.classList = "fas fa-play";
-
+        // here there was pauseBtnIcon but not used. probably might have caused error
     }
     playBtnIcon.classList = video.paused ? "fas fa-play":"fas fa-pause";
 };
@@ -195,12 +195,18 @@ const handleMouseMove = () => {
 const handleMouseLeave = () => {
     controlsTimeout = setTimeout(hideControls, 3000);
 };
-
+// Ended event has been modified
 const handleEnded = async () => {
     const { id } = videoContainer.dataset;
     await fetch(`/api/videos/${id}/view`,{
     method: "POST",
     });
+    // Change play button icon to "play"
+    playBtnIcon.classList = "fas fa-play";
+
+    // Reset playback bar to the beginning
+    timeline.value = 0;
+    video.currentTime = 0;
 };
 
 const handleFormFocusIn = () =>{

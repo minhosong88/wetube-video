@@ -3,9 +3,11 @@ extends ../base
 block content 
     if errorMessage
         span=errorMessage
+    if infoMessage 
+        span=infoMessage
     form(method="POST")
-        input(placeholder="Username", name="username", type="text", required)
-        input(placeholder="Password", name="password", type="password", required)
+        input(type="text", name="username", placeholder="Username", required, minlength="5", maxlength="20", pattern="^[a-zA-Z0-9_\\-]{5,20}$", title="Username must be 3-20 characters long and can only contain letters, numbers, hyphens, and underscores.")
+        input(placeholder="Password", name="password", type="password", required, pattern="(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\|,.<>\\/?]).{10,20}", title="Password must contain at least one uppercase, one special character, and be between 10 and 20 characters long")
         input(type="submit", value="Login")
         include ../partials/social-login
     div.auth__switch
