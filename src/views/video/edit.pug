@@ -3,7 +3,7 @@ extends ../base
 block content
     h4 Update video
     form(method="POST")
-        input(name="title", placeholder="Title", required, type ="text", maxLength="80", value=video.title )
-        input(name="description", placeholder="Description", required, type ="text", minlength= "20", value=video.description)
-        input(name="hashtags", placeholder="Hashtag, separated by comma.", required, type ="text", value=video.hashtags.join())
+        input(type="text", name="title", placeholder="Title", minlength="3", maxlength="80", pattern="^[a-zA-Z0-9\\s_\\-]{3,80}$" title="Title must be 3-80 characters long and can only contain letters, numbers, hyphens, underscores, and spaces.", minLength="3",maxLength="80", required, value=video.title )
+        input(name="description", placeholder="Description", required, type ="text", minlength= "20", maxLength="255",value=video.description)
+        input(type="text", name="hashtags", placeholder="Hashtag, separated by comma.", pattern="^(#?[a-zA-Z0-9\\s]{1,20})(,?\\s?#?\\s?[a-zA-Z0-9]{1,20})*$", title="Hashtags should be max 20 characters long, and separated by commas.", maxlength="200", required, value=video.hashtags.join())
         input(value="Save", type="submit")

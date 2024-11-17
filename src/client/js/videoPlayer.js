@@ -195,12 +195,18 @@ const handleMouseMove = () => {
 const handleMouseLeave = () => {
     controlsTimeout = setTimeout(hideControls, 3000);
 };
-
+// Ended event has been modified
 const handleEnded = async () => {
     const { id } = videoContainer.dataset;
     await fetch(`/api/videos/${id}/view`,{
     method: "POST",
     });
+    // Change play button icon to "play"
+    playBtnIcon.classList = "fas fa-play";
+
+    // Reset playback bar to the beginning
+    timeline.value = 0;
+    video.currentTime = 0;
 };
 
 const handleFormFocusIn = () =>{

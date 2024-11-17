@@ -3,7 +3,7 @@ include ../mixins/video
 
 block content 
     form(method="GET").search__form
-        input(name="keyword", placeholder="Search by title", type="text")
+        input(type="text", name="keyword", placeholder="Search by title", pattern="^[a-zA-Z0-9\\s]*$", title="Search query can only contain letters, numbers, and spaces.", required, minLength="3",maxLength="80")
         button 
             i.fas.fa-search
 

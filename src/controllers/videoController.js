@@ -51,6 +51,26 @@ export const postEdit =async(req, res) => {
         description, 
         hashtags: Video.formatHashtags(hashtags),
     });
+    // Hashtags validation (split by commas, check each length, and max count)
+    const hashtagArray = hashtags.split(",").map((hashtag) => hashtag.trim());
+
+    // Validate hashtag count
+    if (hashtagArray.length > 10) {
+        return res.status(400).render("video/upload", {
+            pageTitle: "Upload Video",
+            errorMessage: "You can only enter up to 10 hashtags.",
+        });
+    }
+
+    // Validate length of each hashtag
+    for (const hashtag of hashtagArray) {
+        if (hashtag.length > 30) {
+            return res.status(400).render("video/upload", {
+                pageTitle: "Upload Video",
+                errorMessage: "Each hashtag must be 30 characters or fewer.",
+            });
+        }
+    }
     req.flash("success", "Changes saved");
     return res.redirect(`/videos/${id}`);
 };
@@ -65,16 +85,52 @@ export const postUpload = async(req, res) =>{
             user:{_id},
         },
     } = req;
-    const isHeroku = process.env.NODE_ENV === "production";
+    //const isHeroku = process.env.NODE_ENV === "production"; // system crash due to this
     const { video, thumb } = req.files;
-    const {title, description, hashtags} = req.body;
+    const { title, description, hashtags } = req.body;
+    
+    // Hashtags validation (split by commas, check each length, and max count)
+    const hashtagArray = hashtags.split(",").map((hashtag) => hashtag.trim());
+
+    // Validate hashtag count
+    if (hashtagArray.length > 10) {
+        return res.status(400).render("video/upload", {
+            pageTitle: "Upload Video",
+            errorMessage: "You can only enter up to 10 hashtags.",
+        });
+    }
+
+    // Validate length of each hashtag
+    for (const hashtag of hashtagArray) {
+        if (hashtag.length > 30) {
+            return res.status(400).render("video/upload", {
+                pageTitle: "Upload Video",
+                errorMessage: "Each hashtag must be 30 characters or fewer.",
+            });
+        }
+    }
+    if (req.fileSizeError) {
+        return res.status(400).render("video/upload", {
+            pageTitle: "Upload Video",
+            errorMessage: req.fileSizeError,
+        });
+    }
+
+    if (req.fileValidationError) {
+        return res.status(400).render("video/upload", {
+            pageTitle: "Upload Video",
+            errorMessage: req.fileValidationError,
+        });
+    }
     try{
         const newVideo = await Video.create({
             title,
             description,
             createdAt: Date.now(),
-            fileUrl: Video.changePath(isHeroku ? video[0].location : video[0].path),
-            thumbUrl: Video.changePath(isHeroku ? thumb[0].location : thumb[0].path),
+            //fileUrl: Video.changePath(isHeroku ? video[0].location : video[0].path),
+            //thumbUrl: Video.changePath(isHeroku ? thumb[0].location : thumb[0].path),
+            fileUrl: Video.changePath(video[0].path),
+            thumbUrl: Video.changePath(thumb[0].path),
             owner:_id,
             hashtags: Video.formatHashtags(hashtags),
     });

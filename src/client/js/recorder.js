@@ -1,4 +1,4 @@
-import {FFmpeg} from "@ffmpeg/ffmpeg";
+import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
 
 const actionBtn = document.getElementById("actionBtn");
@@ -21,7 +21,7 @@ const downloadFile = (fileUrl, fileName) =>{
     document.body.appendChild(a);
     a.click();
 }
-
+// ffmpeg version change - code modification needed. recoding not working due to permissin on the webbrowser. Download was not working due to version incompatibility. 
 const handleDownload = async() =>{
     actionBtn.removeEventListener("click", handleDownload);
 
@@ -34,16 +34,17 @@ const handleDownload = async() =>{
 
     await ffmpeg.writeFile(files.input, await fetchFile(videoFile));
 
-    await ffmpeg.exac(["-i", files.input, "-r", "60", files.output]);
+    await ffmpeg.exec(["-i", files.input, "-r", "60", files.output]);
     
-    await ffmpeg.exac(
-        ["-i", 
-        files.input, 
-        "-ss", 
-        "00:00:01", 
-        "-frames:v", 
-        "1", 
-        files.thumb]);
+    await ffmpeg.exec([
+        "-i",
+        files.input,
+        "-ss",
+        "00:00:01",
+        "-frames:v",
+        "1",
+        files.thumb,
+    ]);
 
     const mp4File = await ffmpeg.readFile(files.output);
     const thumbFile = await ffmpeg.readFile(files.thumb);

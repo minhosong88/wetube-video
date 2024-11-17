@@ -5,7 +5,7 @@ import {watch,
     postUpload, 
     getUpload, 
     deleteVideo} from "../controllers/videoController.js";
-import { protectionMiddleware, videoUpload } from "../middlewares.js";
+import { handleVideoSizeError, protectionMiddleware, videoUpload } from "../middlewares.js";
 
 const videoRouter = express.Router();
 
@@ -26,6 +26,19 @@ videoRouter
 .post(videoUpload.fields([
     {name: "video", maxcount: 1},
     {name: "thumb", maxcount: 1},
-]), postUpload);
+]), handleVideoSizeError,
+(req, res, next) => {
+
+    if (req.fileValidationError) {
+        req.flash("error", req.fileValidationError);
+        return res.status(400).redirect("/videos/upload");
+    }
+    if (req.fileSizeError) {
+        req.flash("error", req.fileSizeError);
+        return res.status(400).redirect("/videos/upload");
+    }
+    next();
+}
+, postUpload);
 
 export default videoRouter;
