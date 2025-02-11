@@ -167,6 +167,18 @@ wetube-video/
 - `POST /api/videos/:id/comment`: Add a comment to a video
 - `DELETE /api/videos/:id/delete`: Delete a comment from a video
 
+## Testing
+
+This project underwent **formal testing** using two black-box testing techniques:
+
+1. **Finite-State Machine (FSM) Testing** – Used to verify state transitions between different modules, ensuring correct system behavior.
+2. **Input Domain Partitioning and Boundary Testing** – Applied to validate input handling by partitioning input spaces and checking boundary conditions.
+
+The testing identified several defects, which were classified using the **Orthogonal Defect Classification (ODC) framework**. The findings led to improvements in **error handling, input validation mechanisms, and logic modifications**. A comprehensive retest confirmed the effectiveness of these fixes.
+
+For more details, refer to the **Formal Testing Report**: [Finite-State Machine and Input Domain Partitioning Testing for a Video-Sharing Platform](link_to_report_if_available).
+
+
 ## Contact Information
 
 For any inquiries or feedback, please feel free to contact me:
